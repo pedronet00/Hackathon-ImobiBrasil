@@ -146,9 +146,13 @@
             margin-left: 8%;
         }
 
+        .conquistas-listar i{
+
+        }
+
         .progress {
             border: 1px solid #B0B0B0;
-            width: 90%;
+            width: 80%;
             margin: auto;
             border-radius: 4px;
             box-shadow: 0 0 3px #B0B0;
@@ -177,6 +181,7 @@
             padding: 1.5%;
             border-radius: 5px;
             text-decoration: none;
+            margin-left: 37%;
         }
 
         .estatisticas:hover{
@@ -271,6 +276,7 @@
             justify-content: center;
             align-items: center;
             margin-top: 20px;
+            margin-left: 15%;
         }
 
         input[type=text] {
@@ -300,7 +306,20 @@
             background-color: #3e8e41;
         }
 
+        .badges{
+            background-color: white;
+            width: 400px;
+            height: 300px;
+            border-radius: 20px;
+            margin-top: 5%;
+            margin-left: 5%;
+            border: 2px solid #cecaca;
+        }
 
+        .badges i{
+            margin-left: 5%;
+            margin-top: 5%;
+        }
 
 
 
@@ -335,6 +354,31 @@
 
             <a class="estatisticas" href="estatisticas.php?user=<?php echo $user;?>">Suas Estatísticas</a>
 
+            <div class="badges">
+
+                <h3 style="text-align: center;"><b>Insígnias</b></h3>
+
+                <i class="fa fa-home insignias" style="color: blue; font-size: 30px;" data-toggle="tooltip" data-placement="top" title="Cadastrador de Imóveis Profissional" aria-hidden="true"></i>
+                <i class="fa fa-comments insignias" style="color: blue; font-size: 30px;" data-toggle="tooltip" data-placement="top" title="Conversador Profissional" aria-hidden="true"></i>
+                <i class="fa fa-folder-open insignias" style="color: blue; font-size: 30px;" data-toggle="tooltip" data-placement="top" title="Documentador Profissional" aria-hidden="true" ></i>
+                <i class="fa fa-book insignias" style="color: blue; font-size: 30px;" data-toggle="tooltip" data-placement="top" title="Documentador Profissional" aria-hidden="true"></i>
+                <i class="fa fa-camera-retro insignias" style="color: blue; font-size: 30px;" data-toggle="tooltip" data-placement="top" title="Documentador Profissional" aria-hidden="true"></i>
+                <i class="fa fa-eyedropper insignias" style="color: blue; font-size: 30px;" data-toggle="tooltip" data-placement="top" title="Documentador Profissional" aria-hidden="true"></i>
+                <i class="fa fa-download insignias" style="color: lightgrey; font-size: 30px;" data-toggle="tooltip" data-placement="top" title="Documentador Profissional" aria-hidden="true"></i>
+                <i class="fa fa-graduation-cap insignias" style="color: lightgrey; font-size: 30px;" data-toggle="tooltip" data-placement="top" title="Documentador Profissional" aria-hidden="true"></i>
+                <i class="fa fa-users insignias" style="color: lightgrey; font-size: 30px;" data-toggle="tooltip" data-placement="top" title="Documentador Profissional" aria-hidden="true"></i>
+                <i class="fa fa-gavel insignias" style="color: lightgrey; font-size: 30px;" data-toggle="tooltip" data-placement="top" title="Documentador Profissional" aria-hidden="true"></i>
+                <i class="fa fa-lightbulb-o insignias" style="color: lightgrey; font-size: 30px;" data-toggle="tooltip" data-placement="top" title="Documentador Profissional" aria-hidden="true"></i>
+                <i class="fa fa-picture-o insignias" style="color: lightgrey; font-size: 30px;" data-toggle="tooltip" data-placement="top" title="Documentador Profissional" aria-hidden="true"></i>
+                <i class="fa fa-search insignias" style="color: lightgrey; font-size: 30px;" data-toggle="tooltip" data-placement="top" title="Documentador Profissional" aria-hidden="true"></i>
+                <i class="fa fa-tag insignias" style="color: lightgrey; font-size: 30px;" data-toggle="tooltip" data-placement="top" title="Documentador Profissional" aria-hidden="true"></i>
+
+            </div>
+            
+            <br/><br/>
+
+            
+
         </div>
 
         
@@ -347,13 +391,8 @@
 
         <div class="conquistas">
 
-        <div class="search-container">
-            <form action="#">
-                <input type="text" placeholder="Pesquisar Conquista">
-                <button type="submit">Buscar</button>
-            </form>
-        </div>
-                <h1>Galeria de Conquistas</h1>
+        <h1>Galeria de Conquistas</h1>
+                
 
                 <?php 
                 
@@ -368,10 +407,6 @@
                     <div class="conquistas-listar">
 
                     <?php if($linha_selecionar_conquistas['tipoConquista'] == 0){ ?>
-
-
-
-
 
                         <!-- Imóveis -->
 
@@ -476,7 +511,7 @@
 
                             <div class="pai_conquistas">
 
-                                <i class="fa fa-comments" aria-hidden="true" style="font-size: 32px; color: green;"></i>
+                                <i class="fa fa-comments" aria-hidden="true" style="font-size: 32px; color: green; "></i>
 
                                 <?php echo "<p style='margin-left: 40%; margin-top: 0.5%;'>". $linha_selecionar_conquistas['descricaoConquista']. ":&nbsp <b>";?>
 
@@ -493,13 +528,42 @@
 
                         <?php } else{
                                 echo "<p style='text-align: center; font-size: 22px; color: green; font-weight: bold;'>Conquista Concluída!</p>";
+                            } ?>
+
+
+
+
+                            <!-- Imagens -->
+
+                            <?php }elseif($linha_selecionar_conquistas['tipoConquista'] == 4){ ?>
+
+                            <?php $progresso_qtdeImagens = $linha_selecionar_historico['imagensTotais'] / $linha_selecionar_conquistas['tamanhoMaximo'] * 100; ?>
+
+                            <div class="pai_conquistas">
+
+                            <i class="fa fa-picture-o" style="color: green; font-size: 32px;" aria-hidden="true"></i>
+
+                                <?php echo "<p style='margin-left: 40%; margin-top: 0.5%;'>". $linha_selecionar_conquistas['descricaoConquista']. ":&nbsp <b>";?>
+
+                                <?php echo $linha_selecionar_historico['imagensTotais']. "/". $linha_selecionar_conquistas['tamanhoMaximo']. "</p></b>"; ?>
+
+                            </div>
+
+                            <?php if($progresso_qtdeImagens != 100){ ?>
+
+                            <div class="progress">
+                            <div class="bar imagens_totais" style="width: <?php echo $progresso_qtdeImagens; ?>%; background-color: #a9f2a9;"><?php echo $progresso_qtdeImagens;?>%</div>
+                            </div>
+
+                            <?php } else{
+                                echo "<p style='text-align: center; font-size: 22px; color: green; font-weight: bold;'>Conquista Concluída!</p>";
                             } }?>
 
                     </div>
                     
            
 
-            <?php } } }?>
+            <?php } } } ?>
 
         </div>
     
@@ -541,38 +605,9 @@
 
     <script>
 
-$(document).ready(function() {
-  // Quando o usuário digita algo no input de pesquisa
-  $('#search-input').on('input', function() {
-    // Obter o valor do input de pesquisa
-    var searchValue = $(this).val();
-
-    // Verificar se o valor do input de pesquisa é válido
-    if (searchValue.length > 0) {
-      // Fazer uma requisição Ajax para obter os resultados de pesquisa
-      $.ajax({
-        url: 'index.php',
-        method: 'POST',
-        data: {
-          search: searchValue
-        },
-        dataType: 'json',
-        success: function(results) {
-          // Limpar a lista de resultados de pesquisa
-          $('#search-results').empty();
-
-          // Adicionar cada resultado à lista de resultados de pesquisa
-          $.each(results, function(index, result) {
-            $('#search-results').append('<li>' + result + '</li>');
-          });
-        }
-      });
-    } else {
-      // Se o valor do input de pesquisa não for válido, limpar a lista de resultados de pesquisa
-      $('#search-results').empty();
-    }
-  });
-});
+        $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+        })
 
 
     </script>

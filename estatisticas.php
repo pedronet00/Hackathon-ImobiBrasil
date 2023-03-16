@@ -31,12 +31,14 @@
             $progresso_qtdeContratos = $linha_selecionar_historico['qtdeContratos'] / $linha_selecionar_conquistas['tamanhoMaximo'] * 100;
             $progresso_qtdeNegocios = $linha_selecionar_historico['qtdeNegocios'] / $linha_selecionar_conquistas['tamanhoMaximo'] * 100;
             $progresso_qtdeMensagens = $linha_selecionar_historico['qtdeMensagens'] / $linha_selecionar_conquistas['tamanhoMaximo'] * 100;
+            $progresso_imagensTotais = $linha_selecionar_historico['imagensTotais'] / $linha_selecionar_conquistas['tamanhoMaximo'] * 100;
         }
 
         $i = 0;
         $c = 0;
         $m = 0;
         $n = 0;
+        $iT = 0;
 
         if($progresso_qtdeImoveis == 100){
             $i++;
@@ -52,6 +54,10 @@
 
         if($progresso_qtdeNegocios == 100){
             $n++;
+        }
+
+        if($progresso_imagensTotais == 100){
+            $iT++;
         }
 
         
@@ -159,6 +165,12 @@
 		<h2>Total de Conquistas de Negócios: <?php echo $n; ?></h2>
 		<p>Deixe o papel de lado. Cadastre seus Negócios no CRM ImobiBrasil e veja o Funil trabalhar!</p>
         <a href="">Ver Negócios</a>
+	</div>
+
+    <div class="conquistas">
+		<h2>Total de Conquistas de Imagens: <?php echo $iT; ?></h2>
+		<p>Boas Fotos são <b style="font-size: 18px;"><i>fundamentais</i></b> para que seus clientes resolvam fechar um negócio com você. Invista nisso!</p>
+        <a href="https://www.imobibrasil.com.br/blog/qual-a-importancia-de-boas-fotos-para-anuncios-de-imoveis/" target="_blank">Dicas de boas fotos</a>
 	</div>
 
 </body>

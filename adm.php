@@ -260,6 +260,7 @@
 			<option value="1">1 - Contrato</option>
 			<option value="2">2 - Negócio</option>
 			<option value="3">3 - Mensagem</option>
+			<option value="4">4 - Imagens</option>
 		</select>
 
 		<br/><br/>
