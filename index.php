@@ -105,7 +105,7 @@
 
         footer{
             width: 100%;
-            height: 35px;
+            height: 60px;
             background-image: url('footer.png');
         }
 
@@ -423,10 +423,10 @@
                             <!-- <i class="fa fa-info-circle" data-toggle="tooltip" style="margin-left: 35%;" data-placement="bottom" title="<?php echo $linha_selecionar_conquistas['tooltips'];?>"></i> -->
                         </div>
 
-                        <?php if($progresso_qtdeImoveis != 100){ ?>
+                        <?php if($progresso_qtdeImoveis < 100){ ?>
 
                         <div class="progress">
-                            <div class="bar cadastrar_imoveis" style="width: <?php echo $progresso_qtdeImoveis; ?>%; background-color: lightgreen;"><?php echo $progresso_qtdeImoveis;?>%</div>
+                            <div class="bar cadastrar_imoveis" style="width: <?php echo $progresso_qtdeImoveis; ?>%; color: white; font-weight: bold; background-color: #2ca62f;"><?php echo $progresso_qtdeImoveis;?>%</div>
                         </div>
 
                         <?php } else{
@@ -457,10 +457,10 @@
 
                             </div>
 
-                            <?php if($progresso_qtdeContratos != 100){ ?>
+                            <?php if($progresso_qtdeContratos < 100){ ?>
 
                                 <div class="progress">
-                                    <div class="bar cadastrar_contratos" style="width: <?php echo $progresso_qtdeContratos; ?>%; background-color: #a9f2a9;"><?php echo $progresso_qtdeContratos;?>%</div>
+                                    <div class="bar cadastrar_contratos" style="width: <?php echo $progresso_qtdeContratos; ?>%; color: white; font-weight: bold; background-color: #2ca62f;"><?php echo $progresso_qtdeContratos;?>%</div>
                                 </div>
 
                             <?php } else{
@@ -489,10 +489,10 @@
                                 <!-- <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="bottom" title="<?php echo $linha_selecionar_conquistas['tooltips'];?>"></i> -->
                             </div>
 
-                        <?php if($progresso_qtdeNegocios != 100){ ?>
+                        <?php if($progresso_qtdeNegocios < 100){ ?>
 
                             <div class="progress">
-                                <div class="bar cadastrar_negocios" style="width: <?php echo $progresso_qtdeNegocios; ?>%; background-color: #a9f2a9;"><?php echo $progresso_qtdeNegocios;?>%</div>
+                                <div class="bar cadastrar_negocios" style="width: <?php echo $progresso_qtdeNegocios; ?>%; color: white; font-weight: bold; background-color: #2ca62f;"><?php echo $progresso_qtdeNegocios;?>%</div>
                             </div>
 
                         <?php } else{
@@ -520,10 +520,10 @@
                                 <!-- <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="bottom" title="<?php echo $linha_selecionar_conquistas['tooltips'];?>"></i> -->
                             </div>
 
-                            <?php if($progresso_qtdeMensagens != 100){ ?>
+                            <?php if($progresso_qtdeMensagens < 100){ ?>
 
                         <div class="progress">
-                            <div class="bar cadastrar_mensagens" style="width: <?php echo $progresso_qtdeMensagens; ?>%; background-color: #a9f2a9;"><?php echo $progresso_qtdeMensagens;?>%</div>
+                            <div class="bar cadastrar_mensagens" style="width: <?php echo $progresso_qtdeMensagens; ?>%; color: white; font-weight: bold; background-color: #2ca62f;"><?php echo $progresso_qtdeMensagens;?>%</div>
                         </div>
 
                         <?php } else{
@@ -549,10 +549,10 @@
 
                             </div>
 
-                            <?php if($progresso_qtdeImagens != 100){ ?>
+                            <?php if($progresso_qtdeImagens < 100){ ?>
 
                             <div class="progress">
-                            <div class="bar imagens_totais" style="width: <?php echo $progresso_qtdeImagens; ?>%; background-color: #a9f2a9;"><?php echo $progresso_qtdeImagens;?>%</div>
+                            <div class="bar imagens_totais" style="width: <?php echo $progresso_qtdeImagens; ?>%; color: white; font-weight: bold; background-color: #2ca62f;"><?php echo $progresso_qtdeImagens;?>%</div>
                             </div>
 
                             <?php } else{

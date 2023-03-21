@@ -20,6 +20,9 @@
         header('Location: login.php');
     }
 
+	
+	$query_conquista = "SELECT * FROM conquistas";
+	$result_query_conquista = mysqli_query($conn, $query_conquista);
 
     if(isset($_POST['acao_cadastrar'])){
 
@@ -57,7 +60,7 @@
         if(isset($_POST['acao_editar'])){
             if(isset($_POST['pesquisar'])){
 
-                $id = $_POST['id_editar'];
+                $id = $_POST['idconquista'];
                 $titulo = $_POST['novo_titulo'];
                 $descricao = $_POST['nova_descricao'];
                 $tooltip = $_POST['tooltip'];
@@ -93,7 +96,7 @@
 	if(isset($_POST['acao_excluir'])){
 
 
-			$id_exclusao = $_POST['id_exclusao'];
+			$id_exclusao = $_POST['idconquistaexclusao'];
 
 			$query_excluir = "DELETE FROM conquistas WHERE idConquista = '$id_exclusao'";
 			$result_excluir = mysqli_query($conn, $query_excluir);
@@ -231,6 +234,22 @@
 
 	<div id="mae">
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	<!-- Formulário para cadastrar uma nova conquista -->
 	<form method="POST" style="width: 25%;"  action="adm.php">
 
@@ -295,6 +314,16 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
 	
 	<!-- Formulário para editar uma conquista existente -->
 	<form method="POST" style="width: 25%;" action="">
@@ -306,8 +335,16 @@
         <input type="hidden" name="acao_editar" value="acao_editar">
 
 		<label for="id">ID da Conquista:</label>
-		<input type="text" name="id_editar" id="id" value="<?php while($linha_query_pesquisar = mysqli_fetch_assoc($result_query_pesquisar)){
-            echo $linha_query_pesquisar['idConquista'];}?>" >
+		<select name="idconquista" id="idconquista" required>
+		<?php while($linha_query_conquista = mysqli_fetch_assoc($result_query_conquista)){
+
+			$id_conquista = $linha_query_conquista['idConquista'];
+
+            echo "<option value='$id_conquista'>". $linha_query_conquista['idConquista']. "</option>";
+			}?>
+		</select>
+
+		<br/><br/>
 
         <?php mysqli_data_seek($result_query_pesquisar, 0); ?>
 
@@ -336,6 +373,20 @@
 		<button type="submit" name="editar">Salvar</button>
 	</form>
 
+
+
+
+
+
+
+	<?php mysqli_data_seek($result_query_conquista, 0); ?>
+
+
+
+
+
+
+
     
 
 
@@ -349,7 +400,14 @@
 		<input type="hidden" name="acao_excluir" value="acao_excluir">
 
 		<label for="id">ID da Conquista:</label>
-		<input type="text" name="id_exclusao" id="id_exclusao" required>
+		<select name="idconquistaexclusao" id="idconquistaexclusao" required>
+		<?php while($linha_query_conquista = mysqli_fetch_assoc($result_query_conquista)){
+
+			$id_conquista = $linha_query_conquista['idConquista'];
+
+            echo "<option value='$id_conquista'>". $linha_query_conquista['idConquista']. "</option>";
+			}?>
+		</select>
 
 		<button type="submit">Excluir</button>
 	</form>
