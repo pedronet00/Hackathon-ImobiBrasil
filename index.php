@@ -39,15 +39,16 @@
         session_destroy();
         header('Location: login.php');
         exit;
+
     }
 
     $_SESSION['lastActivity'] = $currentTime;
 
 /* Fim da Ação de deslogar por inatividade */
 
-    $selecionar_cadastro = "SELECT * FROM cadastro WHERE nome = '$user'";
-    $result_selecionar_cadastro = mysqli_query($conn, $selecionar_cadastro);
-    $linha_selecionar_cadastro = mysqli_fetch_assoc($result_selecionar_cadastro);
+    $selecionar_cadastro = "SELECT * FROM cadastro WHERE nome = '$user'"; //query
+    $result_selecionar_cadastro = mysqli_query($conn, $selecionar_cadastro); //result
+    $linha_selecionar_cadastro = mysqli_fetch_assoc($result_selecionar_cadastro); //array
 
     $id_user_logado = $linha_selecionar_cadastro['id'];
 
@@ -141,8 +142,8 @@
             background-color: #dcdcdc;
             width: 80%;
             border-radius: 30px;
-            height: 70px;
-            margin-top: 2%;
+            height: 90px;
+            margin-top: 1.2%;
             margin-left: 8%;
         }
 
@@ -321,6 +322,40 @@
             margin-top: 5%;
         }
 
+        #fundo-escuro {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+            display: none;
+        }
+
+        #meu-iframe-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 800px;
+            height: 80%;
+            max-height: 600px;
+            background-color: white;
+            border: none;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            z-index: 10000;
+            display: none;
+        }
+
+        #meu-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+
 
 
     </style>
@@ -332,7 +367,6 @@
         <div class="menu_superior"></div>
     </header>
 
-    <?php echo "<b>Usuário logado:</b> ". $user; ?>
 
     <form action="" method="POST">
         <input type="hidden" name="acao_deslogar" value="acao">
@@ -341,7 +375,8 @@
 
 
     <div class="mae">
-    
+
+        <!-- menu lateral esquerdo -->
         <div class="menu_esquerda">
 
             <div class="profile_pic">
@@ -352,18 +387,19 @@
 
             <br/><br/>
 
+            <!-- estatísticas -->
             <a class="estatisticas" href="estatisticas.php?user=<?php echo $user;?>">Suas Estatísticas</a>
 
             <div class="badges">
 
                 <h3 style="text-align: center;"><b>Insígnias</b></h3>
 
-                <i class="fa fa-home insignias" style="color: blue; font-size: 30px;" data-toggle="tooltip" data-placement="top" title="Cadastrador de Imóveis Profissional" aria-hidden="true"></i>
-                <i class="fa fa-comments insignias" style="color: blue; font-size: 30px;" data-toggle="tooltip" data-placement="top" title="Conversador Profissional" aria-hidden="true"></i>
-                <i class="fa fa-folder-open insignias" style="color: blue; font-size: 30px;" data-toggle="tooltip" data-placement="top" title="Documentador Profissional" aria-hidden="true" ></i>
-                <i class="fa fa-book insignias" style="color: blue; font-size: 30px;" data-toggle="tooltip" data-placement="top" title="Documentador Profissional" aria-hidden="true"></i>
-                <i class="fa fa-camera-retro insignias" style="color: blue; font-size: 30px;" data-toggle="tooltip" data-placement="top" title="Documentador Profissional" aria-hidden="true"></i>
-                <i class="fa fa-eyedropper insignias" style="color: blue; font-size: 30px;" data-toggle="tooltip" data-placement="top" title="Documentador Profissional" aria-hidden="true"></i>
+                <i class="fa fa-home insignias" style="color: #2ca62f; font-size: 30px;" data-toggle="tooltip" data-placement="top" title="Cadastrador de Imóveis Profissional" aria-hidden="true"></i>
+                <i class="fa fa-comments insignias" style="color: #2ca62f; font-size: 30px;" data-toggle="tooltip" data-placement="top" title="Conversador Profissional" aria-hidden="true"></i>
+                <i class="fa fa-folder-open insignias" style="color: #2ca62f; font-size: 30px;" data-toggle="tooltip" data-placement="top" title="Documentador Profissional" aria-hidden="true" ></i>
+                <i class="fa fa-book insignias" style="color: #2ca62f; font-size: 30px;" data-toggle="tooltip" data-placement="top" title="Documentador Profissional" aria-hidden="true"></i>
+                <i class="fa fa-camera-retro insignias" style="color: #2ca62f; font-size: 30px;" data-toggle="tooltip" data-placement="top" title="Documentador Profissional" aria-hidden="true"></i>
+                <i class="fa fa-eyedropper insignias" style="color: #2ca62f; font-size: 30px;" data-toggle="tooltip" data-placement="top" title="Documentador Profissional" aria-hidden="true"></i>
                 <i class="fa fa-download insignias" style="color: lightgrey; font-size: 30px;" data-toggle="tooltip" data-placement="top" title="Documentador Profissional" aria-hidden="true"></i>
                 <i class="fa fa-graduation-cap insignias" style="color: lightgrey; font-size: 30px;" data-toggle="tooltip" data-placement="top" title="Documentador Profissional" aria-hidden="true"></i>
                 <i class="fa fa-users insignias" style="color: lightgrey; font-size: 30px;" data-toggle="tooltip" data-placement="top" title="Documentador Profissional" aria-hidden="true"></i>
@@ -377,240 +413,310 @@
             
             <br/><br/>
 
-            
-
-        </div>
-
-        
+        </div> 
 
         
     <?php 
+
         mysqli_data_seek($result_selecionar_historico, 0);
         mysqli_data_seek($result_selecionar_conquistas, 0);
+
     ?>
 
-        <div class="conquistas">
+        
+            <div class="conquistas">
 
-        <h1>Galeria de Conquistas</h1>
-                
+                    <?php 
 
-                <?php 
-                
-                while($linha_selecionar_historico = mysqli_fetch_assoc($result_selecionar_historico)){
-
-                while($linha_selecionar_conquistas = mysqli_fetch_assoc($result_selecionar_conquistas)){ 
-
-                    if($linha_selecionar_conquistas['atribuidoPara'] == 0 || $linha_selecionar_conquistas['atribuidoPara'] == $linha_selecionar_cadastro['id']){
+                    $date = date('Y-m-d');
                     
-                    
-                    ?>
-                    <div class="conquistas-listar">
+                    while($linha_selecionar_historico = mysqli_fetch_assoc($result_selecionar_historico)){
 
-                    <?php if($linha_selecionar_conquistas['tipoConquista'] == 0){ ?>
+                    while($linha_selecionar_conquistas = mysqli_fetch_assoc($result_selecionar_conquistas)){ 
 
-                        <!-- Imóveis -->
+                        if($linha_selecionar_conquistas['atribuidoPara'] == 0 || $linha_selecionar_conquistas['atribuidoPara'] == $linha_selecionar_cadastro['id']){ ?>
 
-                        <?php $progresso_qtdeImoveis = $linha_selecionar_historico['qtdeImoveis'] / $linha_selecionar_conquistas['tamanhoMaximo'] * 100; ?>
+                        <div class="conquistas-listar">
 
-                        <div class="pai_conquistas">
+                        <?php if($linha_selecionar_conquistas['tipoConquista'] == 0){ ?>
 
-                            <i class="fa fa-home" aria-hidden="true" style="font-size: 32px; color: green;"></i>
+                            <!-- Imóveis -->
+
+                            <?php $progresso_qtdeImoveis = $linha_selecionar_historico['qtdeImoveis'] / $linha_selecionar_conquistas['tamanhoMaximo'] * 100; 
+
+                                $data = $linha_selecionar_conquistas['dataLimiteConquista'];
+                                $date = new DateTime($data);
+                                $data_formatada = $date->format('d/m/Y');
                             
-                            <?php echo "<p style='margin-left: 40%; margin-top: 0.5%;'>". $linha_selecionar_conquistas['descricaoConquista']. ":&nbsp <b>";?>
-
-                            <?php echo $linha_selecionar_historico['qtdeImoveis']. "/". $linha_selecionar_conquistas['tamanhoMaximo']. "</p></b>"; ?>
-
-                            <!-- <i class="fa fa-info-circle" data-toggle="tooltip" style="margin-left: 35%;" data-placement="bottom" title="<?php echo $linha_selecionar_conquistas['tooltips'];?>"></i> -->
-                        </div>
-
-                        <?php if($progresso_qtdeImoveis < 100){ ?>
-
-                        <div class="progress">
-                            <div class="bar cadastrar_imoveis" style="width: <?php echo $progresso_qtdeImoveis; ?>%; color: white; font-weight: bold; background-color: #2ca62f;"><?php echo $progresso_qtdeImoveis;?>%</div>
-                        </div>
-
-                        <?php } else{
-                            echo "<p style='text-align: center; font-size: 22px; color: green; font-weight: bold;'>Conquista Concluída!</p>";
-                        }
-
-                        ?>
-
-
-
-
-
-                        <!-- Contratos -->
-
-                        <?php }elseif($linha_selecionar_conquistas['tipoConquista'] == 1){ ?>
-
-                            <?php $progresso_qtdeContratos = $linha_selecionar_historico['qtdeContratos'] / $linha_selecionar_conquistas['tamanhoMaximo'] * 100; ?>
+                            ?>
 
                             <div class="pai_conquistas">
 
-                                <i class="fa fa-folder-open" aria-hidden="true" style="font-size: 32px; color: green;"></i>
-
+                                <i class="fa fa-home" aria-hidden="true" style="font-size: 32px; color: green;"></i>
+                                
                                 <?php echo "<p style='margin-left: 40%; margin-top: 0.5%;'>". $linha_selecionar_conquistas['descricaoConquista']. ":&nbsp <b>";?>
 
-                                <?php echo $linha_selecionar_historico['qtdeContratos']. "/". $linha_selecionar_conquistas['tamanhoMaximo']. "</p></b>"; ?>
-
-                                <!-- <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="bottom" title="<?php echo $linha_selecionar_conquistas['tooltips'];?>"></i> -->
+                                <?php echo $linha_selecionar_historico['qtdeImoveis']. "/". $linha_selecionar_conquistas['tamanhoMaximo']. "</p></b>"; ?>
 
                             </div>
 
-                            <?php if($progresso_qtdeContratos < 100){ ?>
+                            <?php 
+                            
+                            $progresso_qtdeImoveis = sprintf("%.0f", $progresso_qtdeImoveis);
+                            
+                            if($progresso_qtdeImoveis < 100){ ?>
+
+                            <div class="progress">
+                                <div class="bar cadastrar_imoveis" style="width: <?php echo $progresso_qtdeImoveis; ?>%; color: white; font-weight: bold; background-color: #2ca62f;"><?php echo $progresso_qtdeImoveis;?>%</div>
+                            </div>
+
+                            <?php } else{
+                                echo "<p style='text-align: center; font-size: 22px; color: green; font-weight: bold;'>Conquista Concluída!</p>";
+                            }
+
+                            if($linha_selecionar_conquistas['conquistaSistema'] == 1){
+                                echo "<p style='font-size: 15px; margin-top: 0.5%; color: white; font-weight: bold; border-radius: 50%; background-color: green; border: 1px solid green; width: 23px; text-align: center;' data-toggle='tooltip' data-placement='top' title='Cadastrado por ADM'>i</p>";
+                                
+                                echo "<a style='float: right; margin-right: 5%; margin-top: -2%;'>Prazo: ". $data_formatada. "</a>";
+                            }
+
+                            ?>
+
+
+
+
+
+                            <!-- Contratos -->
+
+                            <?php }elseif($linha_selecionar_conquistas['tipoConquista'] == 1){ ?>
+
+                                <?php $progresso_qtdeContratos = $linha_selecionar_historico['qtdeContratos'] / $linha_selecionar_conquistas['tamanhoMaximo'] * 100; 
+                                
+                                    $data = $linha_selecionar_conquistas['dataLimiteConquista'];
+                                    $date = new DateTime($data);
+                                    $data_formatada = $date->format('d/m/Y');
+                                
+                                ?>
+
+                                <div class="pai_conquistas">
+
+                                    <i class="fa fa-folder-open" aria-hidden="true" style="font-size: 32px; color: green;"></i>
+
+                                    <?php echo "<p style='margin-left: 40%; margin-top: 0.5%;'>". $linha_selecionar_conquistas['descricaoConquista']. ":&nbsp <b>";?>
+
+                                    <?php echo $linha_selecionar_historico['qtdeContratos']. "/". $linha_selecionar_conquistas['tamanhoMaximo']. "</p></b>"; ?>
+
+                                </div>
+                                    
+                                <?php 
+                                
+                                $progresso_qtdeContratos = sprintf("%.0f", $progresso_qtdeContratos);
+
+                                if($progresso_qtdeContratos < 100){ ?>
+
+                                    <div class="progress">
+                                        <div class="bar cadastrar_contratos" style="width: <?php echo $progresso_qtdeContratos; ?>%; color: white; font-weight: bold; background-color: #2ca62f;"><?php echo $progresso_qtdeContratos;?>%</div>
+                                        
+                                    </div>
+
+                                <?php } else{
+                                    echo "<p style='text-align: center; font-size: 22px; color: green; font-weight: bold;'>Conquista Concluída!</p>";
+                                } 
+                                
+                                if($linha_selecionar_conquistas['conquistaSistema'] == 1){
+                                    echo "<p style='font-size: 15px; margin-top: 0.5%; color: white; font-weight: bold; border-radius: 50%; background-color: green; border: 1px solid green; width: 23px; text-align: center;' data-toggle='tooltip' data-placement='top' title='Cadastrado por ADM'>i</p>";
+                                    echo "<p style='float: right; margin-right: 5%; margin-top: -2%;'>Prazo: ". $data_formatada. "</p>";
+                                }
+                                
+                                ?>
+
+
+
+
+
+
+                            <!-- Negócios -->
+                            
+                            <?php }elseif($linha_selecionar_conquistas['tipoConquista'] == 2){ ?>
+
+                                <?php $progresso_qtdeNegocios = $linha_selecionar_historico['qtdeNegocios'] / $linha_selecionar_conquistas['tamanhoMaximo'] * 100; 
+                                
+                                    $data = $linha_selecionar_conquistas['dataLimiteConquista'];
+                                    $date = new DateTime($data);
+                                    $data_formatada = $date->format('d/m/Y');
+
+                                ?>
+
+                                <div class="pai_conquistas">
+
+                                    <i class="fa fa-briefcase" aria-hidden="true" style="font-size: 32px; color: green;"></i>
+
+                                    <?php echo "<p style='margin-left: 40%; margin-top: 0.5%;'>". $linha_selecionar_conquistas['descricaoConquista']. ":&nbsp <b>";?>
+
+                                    <?php echo $linha_selecionar_historico['qtdeNegocios']. "/". $linha_selecionar_conquistas['tamanhoMaximo']. "</p></b>"; ?>
+
+                                </div>
+
+                            <?php 
+                            
+                            $progresso_qtdeNegocios = sprintf("%.0f", $progresso_qtdeNegocios);
+                            
+                            if($progresso_qtdeNegocios < 100){ ?>
 
                                 <div class="progress">
-                                    <div class="bar cadastrar_contratos" style="width: <?php echo $progresso_qtdeContratos; ?>%; color: white; font-weight: bold; background-color: #2ca62f;"><?php echo $progresso_qtdeContratos;?>%</div>
+                                    <div class="bar cadastrar_negocios" style="width: <?php echo $progresso_qtdeNegocios; ?>%; color: white; font-weight: bold; background-color: #2ca62f;"><?php echo $progresso_qtdeNegocios;?>%</div>
                                 </div>
 
                             <?php } else{
-                                echo "<p style='text-align: center; font-size: 22px; color: green; font-weight: bold;'>Conquista Concluída!</p>";
-                            } ?>
+                                    echo "<p style='text-align: center; font-size: 22px; color: green; font-weight: bold;'>Conquista Concluída!</p>";
+                                } 
+                                
+                                
+                                if($linha_selecionar_conquistas['conquistaSistema'] == 1){
+                                    echo "<p style='font-size: 15px; margin-top: 0.5%; color: white; font-weight: bold; border-radius: 50%; background-color: green; border: 1px solid green; width: 23px; text-align: center;' data-toggle='tooltip' data-placement='top' title='Cadastrado por ADM'>i</p>";
+                                    echo "<p style='float: right; margin-right: 5%; margin-top: -2%;'>Prazo: ". $data_formatada. "</p>";
+                                }
+                                
+                                ?>
 
 
 
 
 
+                            <!-- Mensagens -->
 
-                        <!-- Negócios -->
-                        
-                        <?php }elseif($linha_selecionar_conquistas['tipoConquista'] == 2){ ?>
+                            <?php }elseif($linha_selecionar_conquistas['tipoConquista'] == 3){ ?>
 
-                            <?php $progresso_qtdeNegocios = $linha_selecionar_historico['qtdeNegocios'] / $linha_selecionar_conquistas['tamanhoMaximo'] * 100; ?>
+                                <?php $progresso_qtdeMensagens = $linha_selecionar_historico['qtdeMensagens'] / $linha_selecionar_conquistas['tamanhoMaximo'] * 100; 
+                                
+                                
+                                $data = $linha_selecionar_conquistas['dataLimiteConquista'];
+                                $date = new DateTime($data);
+                                $data_formatada = $date->format('d/m/Y');
+                                
+                                
 
-                            <div class="pai_conquistas">
+                                
+                                
+                                ?>
 
-                                <i class="fa fa-briefcase" aria-hidden="true" style="font-size: 32px; color: green;"></i>
+                                <div class="pai_conquistas">
 
-                                <?php echo "<p style='margin-left: 40%; margin-top: 0.5%;'>". $linha_selecionar_conquistas['descricaoConquista']. ":&nbsp <b>";?>
+                                    <i class="fa fa-comments" aria-hidden="true" style="font-size: 32px; color: green; "></i>
 
-                                <?php echo $linha_selecionar_historico['qtdeNegocios']. "/". $linha_selecionar_conquistas['tamanhoMaximo']. "</p></b>"; ?>
+                                    <?php echo "<p style='margin-left: 40%; margin-top: 0.5%;'>". $linha_selecionar_conquistas['descricaoConquista']. ":&nbsp <b>";?>
 
-                                <!-- <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="bottom" title="<?php echo $linha_selecionar_conquistas['tooltips'];?>"></i> -->
-                            </div>
+                                    <?php echo $linha_selecionar_historico['qtdeMensagens']. "/". $linha_selecionar_conquistas['tamanhoMaximo']. "</p></b>"; ?>
 
-                        <?php if($progresso_qtdeNegocios < 100){ ?>
+                                </div>
 
-                            <div class="progress">
-                                <div class="bar cadastrar_negocios" style="width: <?php echo $progresso_qtdeNegocios; ?>%; color: white; font-weight: bold; background-color: #2ca62f;"><?php echo $progresso_qtdeNegocios;?>%</div>
-                            </div>
-
-                        <?php } else{
-                                echo "<p style='text-align: center; font-size: 22px; color: green; font-weight: bold;'>Conquista Concluída!</p>";
-                            } ?>
-
-
-
-
-
-                        <!-- Mensagens -->
-
-                        <?php }elseif($linha_selecionar_conquistas['tipoConquista'] == 3){ ?>
-
-                            <?php $progresso_qtdeMensagens = $linha_selecionar_historico['qtdeMensagens'] / $linha_selecionar_conquistas['tamanhoMaximo'] * 100; ?>
-
-                            <div class="pai_conquistas">
-
-                                <i class="fa fa-comments" aria-hidden="true" style="font-size: 32px; color: green; "></i>
-
-                                <?php echo "<p style='margin-left: 40%; margin-top: 0.5%;'>". $linha_selecionar_conquistas['descricaoConquista']. ":&nbsp <b>";?>
-
-                                <?php echo $linha_selecionar_historico['qtdeMensagens']. "/". $linha_selecionar_conquistas['tamanhoMaximo']. "</p></b>"; ?>
-
-                                <!-- <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="bottom" title="<?php echo $linha_selecionar_conquistas['tooltips'];?>"></i> -->
-                            </div>
-
-                            <?php if($progresso_qtdeMensagens < 100){ ?>
-
-                        <div class="progress">
-                            <div class="bar cadastrar_mensagens" style="width: <?php echo $progresso_qtdeMensagens; ?>%; color: white; font-weight: bold; background-color: #2ca62f;"><?php echo $progresso_qtdeMensagens;?>%</div>
-                        </div>
-
-                        <?php } else{
-                                echo "<p style='text-align: center; font-size: 22px; color: green; font-weight: bold;'>Conquista Concluída!</p>";
-                            } ?>
-
-
-
-
-                            <!-- Imagens -->
-
-                            <?php }elseif($linha_selecionar_conquistas['tipoConquista'] == 4){ ?>
-
-                            <?php $progresso_qtdeImagens = $linha_selecionar_historico['imagensTotais'] / $linha_selecionar_conquistas['tamanhoMaximo'] * 100; ?>
-
-                            <div class="pai_conquistas">
-
-                            <i class="fa fa-picture-o" style="color: green; font-size: 32px;" aria-hidden="true"></i>
-
-                                <?php echo "<p style='margin-left: 40%; margin-top: 0.5%;'>". $linha_selecionar_conquistas['descricaoConquista']. ":&nbsp <b>";?>
-
-                                <?php echo $linha_selecionar_historico['imagensTotais']. "/". $linha_selecionar_conquistas['tamanhoMaximo']. "</p></b>"; ?>
-
-                            </div>
-
-                            <?php if($progresso_qtdeImagens < 100){ ?>
+                                <?php 
+                                
+                                $progresso_qtdeMensagens = sprintf("%.0f", $progresso_qtdeMensagens);
+                                
+                                if($progresso_qtdeMensagens < 100){ ?>
 
                             <div class="progress">
-                            <div class="bar imagens_totais" style="width: <?php echo $progresso_qtdeImagens; ?>%; color: white; font-weight: bold; background-color: #2ca62f;"><?php echo $progresso_qtdeImagens;?>%</div>
+                                <div class="bar cadastrar_mensagens" style="width: <?php echo $progresso_qtdeMensagens; ?>%; color: white; font-weight: bold; background-color: #2ca62f;"><?php echo $progresso_qtdeMensagens;?>%</div>
                             </div>
 
                             <?php } else{
-                                echo "<p style='text-align: center; font-size: 22px; color: green; font-weight: bold;'>Conquista Concluída!</p>";
-                            } }?>
+                                    echo "<p style='text-align: center; font-size: 22px; color: green; font-weight: bold;'>Conquista Concluída!</p>";
+                                } 
+                                
+                                if($linha_selecionar_conquistas['conquistaSistema'] == 1){
+                                    echo "<p style='font-size: 15px; margin-top: 0.5%; color: white; font-weight: bold; border-radius: 50%; background-color: green; border: 1px solid green; width: 23px; text-align: center;' data-toggle='tooltip' data-placement='top' title='Cadastrado por ADM'>i</p>";
+                                    echo "<p style='float: right; margin-right: 5%; margin-top: -2%;'>Prazo: ". $data_formatada. "</p>";
+                                }
+                                
+                                
+                                ?>
 
-                    </div>
-                    
-           
 
-            <?php } } } ?>
 
+
+                                <!-- Imagens -->
+
+                                <?php }elseif($linha_selecionar_conquistas['tipoConquista'] == 4){ ?>
+
+                                <?php $progresso_qtdeImagens = $linha_selecionar_historico['imagensTotais'] / $linha_selecionar_conquistas['tamanhoMaximo'] * 100; 
+                                
+                                
+                                    $data = $linha_selecionar_conquistas['dataLimiteConquista'];
+                                    $date = new DateTime($data);
+                                    $data_formatada = $date->format('d/m/Y');
+                                
+                                
+                                ?>
+
+                                <div class="pai_conquistas">
+
+                                <i class="fa fa-picture-o" style="color: green; font-size: 32px;" aria-hidden="true"></i>
+
+                                    <?php echo "<p style='margin-left: 40%; margin-top: 0.5%;'>". $linha_selecionar_conquistas['descricaoConquista']. ":&nbsp <b>";?>
+
+                                    <?php echo $linha_selecionar_historico['imagensTotais']. "/". $linha_selecionar_conquistas['tamanhoMaximo']. "</p></b>"; ?>
+
+                                </div>
+
+                                <?php 
+                                
+                                $progresso_qtdeImagens = sprintf("%.0f", $progresso_qtdeImagens);
+                                
+                                if($progresso_qtdeImagens < 100){ ?>
+
+                                <div class="progress">
+                                <div class="bar imagens_totais" style="width: <?php echo $progresso_qtdeImagens; ?>%; color: white; font-weight: bold; background-color: #2ca62f;"><?php echo $progresso_qtdeImagens;?>%</div>
+                                </div>
+
+                                <?php } else{
+                                    echo "<p style='text-align: center; font-size: 22px; color: green; font-weight: bold;'>Conquista Concluída!</p>";
+                                } 
+                                
+                                if($linha_selecionar_conquistas['conquistaSistema'] == 1){
+                                    $id_conquista = $linha_selecionar_conquistas['idConquista'];
+                                    echo "<p style='font-size: 15px; margin-top: 0.5%; color: white; font-weight: bold; border-radius: 50%; background-color: green; border: 1px solid green; width: 23px; text-align: center;' data-toggle='tooltip' data-placement='top' title='Cadastrado por ADM'>i</p>";
+                                    echo "<a id='mostrar-iframe' href='#' style='float: right; margin-right: 5%; margin-top: -2%;'>Prazo: ". $data_formatada. "</a>"; 
+                                }
+                                
+                                
+                                }?>
+
+                        </div>
+                <?php } } } ?>
+            </div>
         </div>
-    
+
+
+    <div id="fundo-escuro"></div>
+
+    <div id="meu-iframe-container">
+        <iframe id="meu-iframe" src="justificar.php?id=<?php echo $id_user_logado; ?>"></iframe>
     </div>
-
-    <button id="open-popup-btn">Abrir popup</button>
 	
-	<div class="popup-container">
-		<div class="popup">
-			<div class="popup-header">
-				<div class="popup-icon"></div>
-				<h1>Conquista Desbloqueada!</h1>
-			</div>
-			<div class="popup-content"></div>
-			<button id="close-popup-btn">Fechar</button>
-		</div>
-	</div>
 
-    <footer></footer>
+        <!-- script para iframe de justificação -->
 
     <script>
 
-        const openPopupBtn = document.querySelector('#open-popup-btn');
-        const popupContainer = document.querySelector('.popup-container');
-        const closePopupBtn = document.querySelector('#close-popup-btn');
+        const link = document.getElementById('mostrar-iframe');
+        const fundoEscuro = document.getElementById('fundo-escuro');
+        const iframeContainer = document.getElementById('meu-iframe-container');
+        const iframe = document.getElementById('meu-iframe');
 
-        function openPopup() {
-            popupContainer.style.display = 'block';
-        }
+        link.addEventListener('click', function(e) {
+            iframeContainer.style.display = 'block';
+            fundoEscuro.style.display = 'block';
+        });
 
-        function closePopup() {
-            popupContainer.style.display = 'none';
-        }
-
-        openPopupBtn.addEventListener('click', openPopup);
-        closePopupBtn.addEventListener('click', closePopup);
-
-    </script>
-
-    <script>
-
-        $(function () {
-        $('[data-toggle="tooltip"]').tooltip()
-        })
-
+        fundoEscuro.addEventListener('click', function() {
+            iframeContainer.style.display = 'none';
+            fundoEscuro.style.display = 'none';
+        });
 
     </script>
+
+        <!-- fim do script de iframe de justificação -->
 
 </body>
 </html>

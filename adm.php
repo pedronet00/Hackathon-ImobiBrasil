@@ -9,8 +9,6 @@
     $user = $_SESSION['usuario'];
 
     
-
-
     if($_SESSION['logado'] == false){
         header('Location: login.php');
     }
@@ -35,13 +33,13 @@
 		
 		if($select_user === 'valor1'){
 
-			$query_inserir = "INSERT INTO conquistas(nomeConquista, descricaoConquista, tamanhoMaximo, tipoConquista, tooltips, atribuidoPara) VALUES ('$titulo','$descricao','$tammaximo','$tipoconquista', '$tooltip', 0)";
+			$query_inserir = "INSERT INTO conquistas(nomeConquista, descricaoConquista, tamanhoMaximo, tipoConquista, tooltips, atribuidoPara, conquistaSistema) VALUES ('$titulo','$descricao','$tammaximo','$tipoconquista', '$tooltip', 0, 1)";
 			$result_query_inserir = mysqli_query($conn, $query_inserir);
 
 			?> <script>alert("Cadastrado com sucesso!")</script><?php
 
 		} else{
-			$query_inserir = "INSERT INTO conquistas(nomeConquista, descricaoConquista, tamanhoMaximo, tipoConquista, tooltips, atribuidoPara) VALUES ('$titulo','$descricao','$tammaximo','$tipoconquista', '$tooltip', '$select_user')";
+			$query_inserir = "INSERT INTO conquistas(nomeConquista, descricaoConquista, tamanhoMaximo, tipoConquista, tooltips, atribuidoPara, conquistaSistema) VALUES ('$titulo','$descricao','$tammaximo','$tipoconquista', '$tooltip', '$select_user', 0)";
 			$result_query_inserir = mysqli_query($conn, $query_inserir);
 
 			?> <script>alert("Cadastrado com sucesso!")</script><?php
@@ -54,16 +52,17 @@
         $result_selecionar_users = mysqli_query($conn, $selecionar_users);
 
 
-
+		$id = "";
     /* Código para pesquisar e editar Conquistas */
 
         if(isset($_POST['acao_editar'])){
-            if(isset($_POST['pesquisar'])){
 
-                $id = $_POST['idconquista'];
+				$id = $_POST['idconquista'];
                 $titulo = $_POST['novo_titulo'];
                 $descricao = $_POST['nova_descricao'];
                 $tooltip = $_POST['tooltip'];
+
+            if(isset($_POST['pesquisar'])){
                 
                 $query_nome_conquista = "AND nomeConquista LIKE '$titulo'";
                 $query_descricao_conquista = "AND descricaoConquista LIKE '$descricao'";
@@ -72,21 +71,20 @@
                     
             } elseif(isset($_POST['editar'])){
 
-                $id = $_POST['id_editar'];
-                $titulo = $_POST['novo_titulo'];
-                $descricao = $_POST['nova_descricao'];
-                $tooltip = $_POST['tooltip'];
-
                 $query_alterar = "UPDATE conquistas SET nomeConquista = '$titulo', descricaoConquista = '$descricao', tooltips = '$tooltip' WHERE idConquista = '$id'";
                 $result_query_alterar = mysqli_query($conn, $query_alterar);
 
 				?> <script>alert("Alterado com sucesso!")</script><?php
                 
             }
+
+			
         }
 
-        $query_pesquisar = "SELECT * FROM conquistas WHERE idConquista = '$id' LIMIT 1";
-        $result_query_pesquisar = mysqli_query($conn, $query_pesquisar);
+		$query_pesquisar = "SELECT * FROM conquistas WHERE idConquista = '$id' LIMIT 1";
+        	$result_query_pesquisar = mysqli_query($conn, $query_pesquisar);
+		
+        
 
     /* Fim do Código para pesquisar e editar Conquistas */
 
@@ -105,9 +103,7 @@
 		
 
 		<?php 
-		
 
-		
 	}
 
 	/* Fim do Código para Exclusão */
@@ -161,7 +157,7 @@
 		input[type="text"],
 		textarea {
 			display: inline-block;
-			width: 100%;
+			width: 95%;
 			padding: 10px;
 			border: 1px solid #ccc;
 			border-radius: 5px;
@@ -215,6 +211,37 @@
 			margin-left: -2.5%;
 		}
 
+		.ver_justificativas{
+			text-align: center;
+			text-decoration: none;
+			color: yellow;
+			border: 1px solid green;
+			padding: 0.3%;
+			border-radius: 20px;
+			background-color: green;
+			margin-left: 45%;
+			
+		}
+
+		#overlay {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background-color: rgba(0, 0, 0, 0.5);
+			z-index: 9999;
+		}
+
+		#iframe {
+			position: fixed;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			z-index: 10000;
+		}
+
+
 	</style>
 </head>
 
@@ -225,30 +252,35 @@
 
 	<br/>
 
+	<a class="ver_justificativas" href="adm_justificar.php" onclick="mostrarIframe(event)">Justificativas</a>
+
+	<div id="overlay" style="display: none;"></div>
+
+	<iframe id="iframe" src="justificar_adm.php" style="display: none; width: 750px; height: 700px;"></iframe>
+
+
     <form style="width: 82px; border: none; padding: 0; height: 10px;" action="" method="POST">
         <input type="hidden" name="acao_deslogar" value="acao">
         <input style="width: 80px; padding: 0;" type="submit" value="Sair" name="unlog">
     </form>
 
-	<p id="demo"></p>
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
 
 	<div id="mae">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 	<!-- Formulário para cadastrar uma nova conquista -->
 	<form method="POST" style="width: 25%;"  action="adm.php">
@@ -292,15 +324,10 @@
 
 			<?php while($linha_users = mysqli_fetch_assoc($result_selecionar_users)) { 
 				
-				if($linha_users['nome'] != "adm"){
-				
-				?>
-
-				
-				<option value="<?php echo $linha_users['id']; ?>"><?php echo $linha_users['nome']; ?></option>
-
-
+				if($linha_users['nome'] != "adm"){ ?>
+					<option value="<?php echo $linha_users['id']; ?>"><?php echo $linha_users['nome']; ?></option>
 			<?php } }?>
+			
 		</select>
 
 		<br/><br/>
@@ -334,13 +361,15 @@
 
         <input type="hidden" name="acao_editar" value="acao_editar">
 
-		<label for="id">ID da Conquista:</label>
+		<label for="id">Conquista:</label>
 		<select name="idconquista" id="idconquista" required>
-		<?php while($linha_query_conquista = mysqli_fetch_assoc($result_query_conquista)){
+		<?php 
+		
+			while($linha_query_conquista = mysqli_fetch_assoc($result_query_conquista)){
 
-			$id_conquista = $linha_query_conquista['idConquista'];
+				$id_conquista = $linha_query_conquista['idConquista'];
 
-            echo "<option value='$id_conquista'>". $linha_query_conquista['idConquista']. "</option>";
+				echo "<option value='$id_conquista'>". $linha_query_conquista['nomeConquista']. "</option>";
 			}?>
 		</select>
 
@@ -364,10 +393,6 @@
         <label for="descricao">ToolTip:</label>
 		<input type="text" name="tooltip" id="tooltip" value="<?php while($linha_query_pesquisar = mysqli_fetch_assoc($result_query_pesquisar)){
             echo $linha_query_pesquisar['tooltips']; }?>">
-
-			
-
-        
 
         <button type="submit" name="pesquisar">Pesquisar</button>
 		<button type="submit" name="editar">Salvar</button>
@@ -399,20 +424,47 @@
 
 		<input type="hidden" name="acao_excluir" value="acao_excluir">
 
-		<label for="id">ID da Conquista:</label>
+		<label for="id">Conquista:</label>
 		<select name="idconquistaexclusao" id="idconquistaexclusao" required>
 		<?php while($linha_query_conquista = mysqli_fetch_assoc($result_query_conquista)){
 
 			$id_conquista = $linha_query_conquista['idConquista'];
 
-            echo "<option value='$id_conquista'>". $linha_query_conquista['idConquista']. "</option>";
+            echo "<option value='$id_conquista'>". $linha_query_conquista['nomeConquista']. "</option>";
 			}?>
 		</select>
-
+			<br/><br/>
 		<button type="submit">Excluir</button>
 	</form>
 
 		</div>
+
+	<script>
+
+		function mostrarIframe(event) {
+				
+			event.preventDefault();
+				
+			// Exibir o overlay escuro
+			document.getElementById("overlay").style.display = "block";
+				
+			// Centralizar o iframe
+			var iframe = document.getElementById("iframe");
+			iframe.style.display = "block";
+			iframe.style.position = "fixed";
+			iframe.style.top = "50%";
+			iframe.style.left = "50%";
+			iframe.style.transform = "translate(-50%, -50%)";
+
+			let fundoEscuro = document.getElementById("overlay");
+
+			fundoEscuro.addEventListener('click', function() {
+				iframe.style.display = 'none';
+				fundoEscuro.style.display = 'none';
+			});
+		}
+
+	</script>
 
 </body>
 </html>
